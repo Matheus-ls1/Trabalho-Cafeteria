@@ -53,3 +53,31 @@ while True:
             conteudo = csv.writer(arquivo)
             for linha in cardapio:
                 conteudo.writerow(linha)
+
+# ----------- Parte Alterar itens
+
+    elif acao == 3:
+        cont = 0
+        for i in cardapio:
+            print(cont,i)
+            cont+=1
+        lista = []
+        lista.clear()
+        x = int(input("\nInsira o numero correspondente ao item que deseja alterar:"))
+        x1 = str(input("\nInsira o item:"))
+        lista.append(x1)
+        x2 = str(input("Insira o sub-item:"))
+        lista.append(x2)
+        x3 = str(input("Insira o produto:"))
+        lista.append(x3)
+        x4 = str(input("Insira o valor:"))
+        lista.append("R$ " + x4)
+        cardapio[x] = lista
+        print("\nItem alterado com sucesso!")
+        print("Cardápio atualizado:")
+        for i in cardapio:
+            print(i)
+        with open('arq.csv',"w") as arquivo:
+            conteudo = csv.writer(arquivo)
+            for linha in cardapio:
+                conteudo.writerow(linha)
