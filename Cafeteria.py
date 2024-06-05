@@ -35,4 +35,21 @@ while True:
             for linha in cardapio:
                 conteudo.writerow(linha)
 
+# ----------- Parte Excluir
 
+    elif acao == 2:
+        print("\n")
+        cont = 0
+        for i in cardapio:
+            print(cont,i)
+            cont+=1
+        x = int(input("\nInsira o numero correspondente ao item que deseja excluir:"))
+        del cardapio[x]
+        print("\nItem removido com sucesso!")
+        print("Cardápio atualizado:")
+        for i in cardapio:
+            print(i)
+        with open('arq.csv',"w") as arquivo:
+            conteudo = csv.writer(arquivo)
+            for linha in cardapio:
+                conteudo.writerow(linha)
