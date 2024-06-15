@@ -90,7 +90,19 @@ while True:
         with open("arq.json", "w") as file:
             json.dump(cardapio, file)
 # --------- Parte buscar
-    
+
+
+    elif acao == 4:
+        x = str(input("\nInsira o item que deseja buscar:"))        # <- item que a pessoa quer buscar
+        cont = 0    # contador para verificar se existe esse item no cardapio
+        for dic in cardapio:    # <- para cada dicionario do cardapio
+            for ele in dic:     # <- para cada item dos dicionarios
+                if ele == x:    # <- se o item do dicionario for igual ao que a pessoa buscou
+                    cont += 1   # <- adciona 1 ao contador
+                    print(dic)  # <- imprime todos os itens iguais ao que a pessoa buscou
+        if cont == 0:      # <- se não somou nenhum numero ao contador significa que não existe esse item
+            print("Item não consta no cardápio")        # <- imprimir que nao existe
+            continue    
 # ----------- Parte listar itens
 
     elif acao == 5:     # <- se a ação digitada la no menu for 5
