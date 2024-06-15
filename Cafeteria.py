@@ -1,39 +1,43 @@
 import csv
+import json
 
-print("Bem-Vindo a Cafeterias\n")
+# Condição: para execução do código sem erro é necessário pelo menos uma lista vazia no arquivo de texto
 
-cardapio = []
+print("Bem-Vindo a Cafeteria\n")
+
+with open("arq.json") as card:    # <- abrir e ler o arquivo de texto
+    cardapio = json.load(card)
 
 while True:
-    print("\n------- MENU PRINCIPAL --------\n1) Adicionar itens ao cardápio\n2) Excluir itens do cardápio\n3) Alterar itens do cardápio\n4) Buscar itens no cardápio\n5) Listar todos os itens do cardápio\n0) Encerrar Programa")
-    acao = int(input("\nDigite o numero correspondente a ação:"))
-    if acao == 0:
-        break
+    print("\n------- MENU PRINCIPAL --------\n1) Adicionar itens ao cardápio\n2) Excluir itens do cardápio\n3) Alterar itens do cardápio\n4) Buscar itens no cardápio\n5) Listar todos os itens do cardápio\n6) Acessar o carrinho\n0) Encerrar Programa")
+    acao = int(input("\nDigite o numero correspondente a ação:"))     # <- executar a ação do menu
+    if acao == 0:  # <- se for a ação 0
+        break      # <- finaliza o programa
 
 # -------------- Parte Adicionar
 
-    elif acao == 1:
+    elif acao == 1:    # <- se for a ação 1
         print("\nCardapio atual:")
-        for i in cardapio:
+        for i in cardapio:              #  <- exibir o cardapio
             print(i)
-        lista = []
-        lista.clear()
+        lista = []          # <- lista vazia para adcionar os itens
+        lista.clear()       #  <- zerar a lista para não repetir itens
         x1 = str(input("\nInsira o item:"))
-        lista.append(x1)
         x2 = str(input("Insira o sub-item:"))
         lista.append(x2)
         x3 = str(input("Insira o produto:"))
         lista.append(x3)
+        x5 = "R$"       # <- inserir a string de de reais na lista
+        lista.append(x5)
         x4 = str(input("Insira o valor:"))
-        lista.append("R$ "+x4)
-        cardapio.append(lista)
+        lista.append(x4)
+        dados = {x1:lista}      # <- gerar dicionario com os itens e produtos
+        cardapio.append(dados)    # <- adicionar o item ao cardapio
         print("\nCadápio atualizado:")
-        for i in cardapio:
+        for i in cardapio:          # <- imprimir o cardapio atualizado
             print(i)
-        with open('arq.csv',"w") as arquivo:
-            conteudo = csv.writer(arquivo)
-            for linha in cardapio:
-                conteudo.writerow(linha)
+        with open("arq.json", "w") as file:     # <- escrever o cardapio atualizado no arquivo txt
+            json.dump(cardapio, file)
 
 # ----------- Parte Excluir
 
