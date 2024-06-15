@@ -62,7 +62,7 @@ while True:
 # ----------- Parte Alterar itens
 
     elif acao == 3:
-        cont = 0
+        cont = 0      # <- contador começa em 0 que funciona como indice
         for i in cardapio:
             print(cont,i)
             cont+=1
@@ -70,19 +70,78 @@ while True:
         lista.clear()
         x = int(input("\nInsira o numero correspondente ao item que deseja alterar:"))
         x1 = str(input("\nInsira o item:"))
-        lista.append(x1)
         x2 = str(input("Insira o sub-item:"))
         lista.append(x2)
         x3 = str(input("Insira o produto:"))
         lista.append(x3)
+        x5 = "R$"
+        lista.append(x5)
         x4 = str(input("Insira o valor:"))
-        lista.append("R$ " + x4)
-        cardapio[x] = lista
+        lista.append(x4)
+        dados = {x1: lista}     # <- gerar um dicionario conforme a pessoa escreveu
+        cardapio[x] = dados     # <- atualizar o item do cardapio escolhido pelo que a pessoa escreveu a partir do indice
         print("\nItem alterado com sucesso!")
         print("Cardápio atualizado:")
         for i in cardapio:
             print(i)
-        with open('arq.csv',"w") as arquivo:
-            conteudo = csv.writer(arquivo)
-            for linha in cardapio:
-                conteudo.writerow(linha)
+        reset = []
+        with open("arq.json", "w") as fil:
+            json.dump(reset, fil)
+        with open("arq.json", "w") as file:
+            json.dump(cardapio, file)
+# --------- Parte buscar
+    
+# ------------ Parte Carrinho
+
+    elif acao == 6:
+        lista0 = []  # <- lista separada para o carrinho começa vazia
+        while True:  # <- looping para o carrinho
+            print("\n1) Adicionar itens ao carrinho\n2)Remover itens do carrinho\n0) Finalizar compra")  # <- menu do carrinho
+            cont = 0      # <- contador começa em 0 que funciona como indice
+            x = int(input("\nDigite o numero correspondente a ação:"))  # <- digitar o numero do indice
+
+            if x == 1:
+                for i in cardapio:
+                    print(cont, i)  # <- imprimir todos os itens do cardapio com o indice na frente
+                    cont += 1
+                y = int(input("\nDigite o numero correspondente ao item que deseja adicionar:"))
+                carr = cardapio[y]   # <- criar variavel com o dicionario que a pessoa quer adcionar ao carrinho
+                lista0.append(carr)  # <- adicionar este dicionario a lista separada paro o carrinho (lista0)
+                print("\nCarrinho atual:")
+                for n in lista0:
+                    print(n)
+            elif x == 2:
+                for i in lista0:      # <- imprimir todos os itens do cardapio com o indice na frente
+                    print(cont, i)
+                    cont += 1
+                y = int(input("\nDigite o numero correspondente ao item que deseja remover:"))
+                del lista0[y]      # <- deletar o dicionario escolhido da lista0 pelo indice
+                print("\nCarrinho atual:")
+                for n in lista0:
+                    print(n)
+            elif x == 0:
+                lista1 = []  # <- lista vazia para armazenar os valores
+                for i in lista0: # <- para cada dicionario da lista do carrinho
+                    u = i.values()  # <- a variavel "u" vai ser só os valores dos dicionarios -- exemplo : ["refrigerante","coca-cola","R$","5,00"]
+                    for z in u:     # <- para cada elemento de "u"  ------------------------------------------------^ -----------^ ------^ ----^
+                        a = str((z[-1]).replace(",", "."))  # <- "a" vai ser o ultimo indice[-1] e ao inves da virgula (,) vai escrever ponto (.)
+                        a1 = float(a)   # <- "a1" vai ser igual ao a mas vai transformar a string em numero real
+                        lista1.append(a1)   # <- adicionar o elemento do ultimo indice como numero real(float) na lista1
+                        valor = sum(lista1)     # <- somar todos os elementos da lista1
+                        garcom = valor*(10/100)     # <- calcular os 10% do garçom
+                        valor_total = valor + garcom    # <- soma do valor dos produtos + 10% do garçom
+                print(f"\nSua compra ficou no valor de R$ {valor_total:.2f} (incluso os 10% do garçom)\n")
+                c = str(input("Se deseja finalizar sua compra digite '0', se deseja alterar o carrinho digite '1':"))   # ação final da compra
+                if c == "0":  # <- se digitar 0
+                    print("\nSUA COMPRA FOI REALIZADA COM SUCESSO !")
+                    break   # <- finaliza o carrinho e volta para o menu do cardapio la em cima
+                elif c == "1":    # <- se digitar 1
+                    continue    # <- continuar o código la no menu do carrinho
+                else:
+                    print("\n------ Erro! -------\nInsira um número correspondente a ação do menu!")
+            else:
+                print("\n------ Erro! -------\nInsira um número correspondente a ação do menu!")
+                continue
+    else:   # <- se a pessoa digitar um numero que não existe no menu do cardapio
+        print("\n------ Erro! -------\nInsira um número correspondente a ação do menu!")
+        continue    # <- retorna para o menu do cardapio
