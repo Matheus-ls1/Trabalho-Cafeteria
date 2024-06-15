@@ -43,20 +43,21 @@ while True:
 
     elif acao == 2:
         print("\n")
-        cont = 0
+        cont = 0     # <- contador começa em 0 que funciona como indice
         for i in cardapio:
-            print(cont,i)
+            print(cont,i)   # <- listar o cardapio a partir do indice
             cont+=1
-        x = int(input("\nInsira o numero correspondente ao item que deseja excluir:"))
-        del cardapio[x]
+        x = int(input("\nInsira o numero correspondente ao item que deseja excluir:"))  # <- digitar o indice do item
+        del cardapio[x]         # <- deletar o item escolhido do cardapio
         print("\nItem removido com sucesso!")
         print("Cardápio atualizado:")
-        for i in cardapio:
+        for i in cardapio:          # <- imprimir o cardapio atualizado
             print(i)
-        with open('arq.csv',"w") as arquivo:
-            conteudo = csv.writer(arquivo)
-            for linha in cardapio:
-                conteudo.writerow(linha)
+        inicio = []   # <- criar lista vazia
+        with open("arq.json", "w") as fil:      # <- resetar o txt com uma com uma lista vazia
+            json.dump(inicio, fil)
+        with open("arq.json", "w") as file:     # <- escrever o cardapio atualizado no txt
+            json.dump(cardapio, file)
 
 # ----------- Parte Alterar itens
 
