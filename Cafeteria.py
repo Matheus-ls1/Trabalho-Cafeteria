@@ -91,6 +91,14 @@ while True:
             json.dump(cardapio, file)
 # --------- Parte buscar
     
+# ----------- Parte listar itens
+
+    elif acao == 5:     # <- se a ação digitada la no menu for 5
+        cont = 0    # <- contador inicia em 0
+        for i in cardapio:  # para cada dicionario do cardapio
+            print(cont, i)  # imprimir o contador e o dicionario
+            cont += 1   # contador aumenta de 1 em 1    
+            
 # ------------ Parte Carrinho
 
     elif acao == 6:
